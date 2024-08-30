@@ -11,4 +11,6 @@
     <string name="ac_sign_in">Регистрация</string>
     <string name="ac_siпт_up">Вход</string>
     <string name="ac_sign_out">Выход</string>
+    <string name="open">Открыто</string>
+    <string name="close">Закрыто</string>
 </resources>

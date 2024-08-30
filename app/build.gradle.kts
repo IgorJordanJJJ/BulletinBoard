@@ -1,11 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.jordan.bulletin_board"
     compileSdk = 34
+
+    viewBinding {
+        enable = true
+    }
 
     defaultConfig {
         applicationId = "com.jordan.bulletin_board"
