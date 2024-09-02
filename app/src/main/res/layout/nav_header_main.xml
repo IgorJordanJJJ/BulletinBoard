@@ -23,7 +23,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:allowUndo="false"
-        android:text="igorjordan@gmial.com"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

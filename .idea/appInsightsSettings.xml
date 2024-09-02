@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.jordan.bulletin_board" />
+                  <option name="mobileSdkAppId" value="1:451901179628:android:6c1bb092fbd807834447c9" />
+                  <option name="projectId" value="bulletin-board-2725c" />
+                  <option name="projectNumber" value="451901179628" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -8,9 +8,22 @@
     <string name="ad_smartphone">Смартфоны</string>
     <string name="ad_dm">Бытовая техника</string>
     <string name="ad_cat2">Аккаунт</string>
-    <string name="ac_sign_in">Регистрация</string>
-    <string name="ac_siпт_up">Вход</string>
+    <string name="ac_sign_in">Вход</string>
+    <string name="ac_sign_up">Регистрация</string>
     <string name="ac_sign_out">Выход</string>
     <string name="open">Открыто</string>
     <string name="close">Закрыто</string>
+    <string name="not_reg">Войдите или зарегистрируйтесь!</string>
+    <!-- Sign Dialog -->
+    <string name="email_reset_password_was_sent">Reset Email was sent!</string>
+    <string name="email_reset_password_with_email_message">Для востановления пароля кажите ваш Email адресс!</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_up_action">Зарегистрироваться</string>
+    <string name="sign_in_action">Войти</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="sign_up_error">Не удалось зарегистрироваться</string>
+    <string name="sign_in_error">Не удалось войти</string>
+    <string name="send_verification_email_error">Не удалось отправить email для подтверждение!</string>
+    <string name="send_verification_email_done">На вашу почту была отправлено ссылка для подтвержения вашего акаунта, пожалуста подтвердите ваш аккаунт!</string>
 </resources>

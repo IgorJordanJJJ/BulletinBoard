@@ -1,7 +1,9 @@
 package com.jordan.bulletin_board
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,25 +12,43 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.jordan.bulletin_board.databinding.ActivityMainBinding
+import com.jordan.bulletin_board.dialoghelper.DialogConst
+import com.jordan.bulletin_board.dialoghelper.DialogHelper
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
+    private lateinit var rootElement: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var toolbar: Toolbar
     private lateinit var navigationView: NavigationView
+    private lateinit var tvAccount: TextView
+
+    private val dialogHelper = DialogHelper(this)
+    val myAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        rootElement = ActivityMainBinding.inflate(layoutInflater) //Инициализация экрана
+        val view = rootElement.root
+        setContentView(view)
         init()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        uiUpdate(myAuth.currentUser)
     }
 
     private fun init() {
         // Инициализация DrawerLayout и Toolbar
-        drawerLayout = findViewById(R.id.drawerLayout)
-        toolbar = findViewById(R.id.toolbar)
-        navigationView = findViewById(R.id.navView)
+        drawerLayout = rootElement.drawerLayout
+        toolbar = rootElement.mainContent.toolbar
+        navigationView = rootElement.navView
+        tvAccount = navigationView.getHeaderView(0).findViewById(R.id.tvAccountEmail)
 
         // Устанавливаем Toolbar в качестве ActionBar
         //setSupportActionBar(toolbar)
@@ -65,21 +85,31 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                 Toast.makeText(this, "Press id_dm", Toast.LENGTH_LONG).show()
             }
 
-            R.id.id_sing_in -> {
-                Toast.makeText(this, "Press id_sing_in", Toast.LENGTH_LONG).show()
+            R.id.id_sing_up -> {
+                dialogHelper.createSignDialog(DialogConst.SIGN_UP_STATE)
             }
 
-            R.id.id_sing_up -> {
-                Toast.makeText(this, "Press id_sing_up", Toast.LENGTH_LONG).show()
+            R.id.id_sing_in -> {
+                dialogHelper.createSignDialog(DialogConst.SIGN_IN_STATE)
             }
 
             R.id.id_sing_out -> {
-                Toast.makeText(this, "Press id_sing_out", Toast.LENGTH_LONG).show()
+                uiUpdate(null)
+                myAuth.signOut()
             }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun uiUpdate(user: FirebaseUser?) {
+        tvAccount.text = if(user == null){
+            resources.getString(R.string.not_reg)
+        }else{
+            user.email
+        }
+
     }
 
 

@@ -25,7 +25,7 @@
         <menu>
             <item
                 android:id="@+id/id_sing_up"
-                android:title="@string/ac_siпт_up" />
+                android:title="@string/ac_sign_up" />
             <item
                 android:id="@+id/id_sing_in"
                 android:title="@string/ac_sign_in" />
