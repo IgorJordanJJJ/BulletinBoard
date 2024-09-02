@@ -43,7 +43,9 @@ android {
 }
 
 dependencies {
-
+    implementation("com.google.firebase:firebase-bom:33.2.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.firebase:firebase-analytics:22.1.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

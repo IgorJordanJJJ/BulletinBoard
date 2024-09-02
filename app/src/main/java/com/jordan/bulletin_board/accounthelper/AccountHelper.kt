@@ -1,11 +1,17 @@
 package com.jordan.bulletin_board.accounthelper
 
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.jordan.bulletin_board.MainActivity
 import com.jordan.bulletin_board.R
+import com.jordan.bulletin_board.dialoghelper.GoogleAccConst
 
 class AccountHelper(private val act: MainActivity) {
+    private lateinit var signInClient: GoogleSignInClient
     fun signUpWithEmail(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             act.myAuth.createUserWithEmailAndPassword(email, password)
@@ -41,15 +47,40 @@ class AccountHelper(private val act: MainActivity) {
         }
     }
 
-    private fun sendEmailVerification(user:FirebaseUser){
-        user.sendEmailVerification().addOnCompleteListener{task ->
-            if(task.isSuccessful){
+
+    private fun getSignInClient(): GoogleSignInClient {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(act.getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        return GoogleSignIn.getClient(act, gso)
+    }
+
+    fun signInWIthGoogle() {
+        signInClient = getSignInClient()
+        val intent = signInClient.signInIntent
+        act.startActivityForResult(intent, GoogleAccConst.GOOGLE_SIGN_IN_REQUEST_CODE)
+    }
+
+    fun signInFirebaseWithGoogle(token: String) {
+        val credential = GoogleAuthProvider.getCredential(token, null)
+        act.myAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(act, "Sign in done", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun sendEmailVerification(user: FirebaseUser) {
+        user.sendEmailVerification().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 Toast.makeText(
                     act,
                     act.resources.getString(R.string.send_verification_email_done),
                     Toast.LENGTH_LONG
                 ).show()
-            }else{
+            } else {
                 Toast.makeText(
                     act,
                     act.resources.getString(R.string.send_verification_email_error),

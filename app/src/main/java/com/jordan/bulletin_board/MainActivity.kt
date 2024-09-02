@@ -1,6 +1,8 @@
 package com.jordan.bulletin_board
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.TextView
@@ -10,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.jordan.bulletin_board.databinding.ActivityMainBinding
 import com.jordan.bulletin_board.dialoghelper.DialogConst
 import com.jordan.bulletin_board.dialoghelper.DialogHelper
+import com.jordan.bulletin_board.dialoghelper.GoogleAccConst
 
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
@@ -36,6 +41,23 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         val view = rootElement.root
         setContentView(view)
         init()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == GoogleAccConst.GOOGLE_SIGN_IN_REQUEST_CODE) {
+//            Log.d("MyLog", "Sign in result")
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                if(account != null){
+                    dialogHelper.accHelper.signInFirebaseWithGoogle(account.idToken!!)
+                }
+
+            } catch (e: ApiException) {
+                Log.d("MyLog", "Api error : ${e.message}")
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onStart() {
@@ -61,6 +83,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         toggle.syncState()
 
         navigationView.setNavigationItemSelectedListener(this)
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -104,9 +127,9 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     }
 
     fun uiUpdate(user: FirebaseUser?) {
-        tvAccount.text = if(user == null){
+        tvAccount.text = if (user == null) {
             resources.getString(R.string.not_reg)
-        }else{
+        } else {
             user.email
         }
 

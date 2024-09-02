@@ -9,7 +9,7 @@ import com.jordan.bulletin_board.accounthelper.AccountHelper
 import com.jordan.bulletin_board.databinding.SignDialogBinding
 
 class DialogHelper(private val act: MainActivity) {
-    private val accHelper = AccountHelper(act)
+    val accHelper = AccountHelper(act)
     fun createSignDialog(index: Int) {
         val builder = AlertDialog.Builder(act)
         val rootDialogElement = SignDialogBinding.inflate(act.layoutInflater)
@@ -22,6 +22,9 @@ class DialogHelper(private val act: MainActivity) {
         }
         rootDialogElement.btForgetP.setOnClickListener {
             setOnClickResetPassword(dialog, rootDialogElement)
+        }
+        rootDialogElement.btGooglSignIn.setOnClickListener {
+            accHelper.signInWIthGoogle()
         }
         dialog.show()
     }
